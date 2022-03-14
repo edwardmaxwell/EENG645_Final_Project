@@ -3,7 +3,8 @@ import os
 import glob
 import argparse
 
-# this script will load class_list.txt and find class names with spaces
+# thisn
+# script will load class_list.txt and find class names with spaces
 # then replace spaces with delimiters inside ground-truth/ and predicted/
 
 parser = argparse.ArgumentParser()

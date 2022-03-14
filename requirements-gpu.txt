@@ -1,4 +1,4 @@
-tensorflow-gpu==2.7.0-gpu
+tensorflow-gpu==2.3.0
 opencv-python==4.1.2.30
 lxml
 tqdm

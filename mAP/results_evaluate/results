@@ -1,0 +1,5 @@
+
+# Number of predicted objects per class
+building: 30 (tp:23, fp:7)
+car: 62 (tp:52, fp:10)
+tree: 82 (tp:55, fp:27)

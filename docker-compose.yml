@@ -1,6 +1,6 @@
 version: '3.7'
 services:
-  yolov4_2:
+  yolov4_cpu:
     build:
       context: .
       dockerfile: Dockerfile
@@ -9,7 +9,7 @@ services:
       DISPLAY:
       TF_FORCE_GPU_ALLOW_GROWTH: 'true'
       QT_X11_NO_MITSHM: 1
-    image: yolov4_2:maxwell
+    image: yolov4_cpu:maxwell
 #    stdin_open: true
 #    tty: true
     # set user to your user id which is usually 1000:1000 to check you user id run `echo $(id -u):$(id -g)`

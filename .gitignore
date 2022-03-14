@@ -9,3 +9,5 @@
 **.tsv
 
 /checkpoints/*
+
+**.weights

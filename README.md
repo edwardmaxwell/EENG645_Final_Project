@@ -75,11 +75,83 @@ python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --
 # Run yolov4-tiny tensorflow model
 python detect.py --weights ./checkpoints/yolov4-tiny-416 --size 416 --model yolov4 --images ./data/images/kite.jpg --tiny
 
-# Run custom yolov4 tensorflow model
-python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/car.jpg
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# BUILD Docker container
+docker-compose up --build yolov4_cpu
+
+# Run Docker container
+docker-compose run --rm yolov4_cpu
+
+
+# BUILD custom yolov4 inside container (if checkpoints/custom-416 does not exist or is empty)
+python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
+
+
+# DETECT on all images in /opt/project/data/images.  Outputs ordered images in /opt/project/detections
+cd /opt/project
+cd data/images
+find -maxdepth 1 -type f ! -name flist.txt -printf  "./data/images/%P, " > /opt/project/flist.txt
+cd /opt/project
+truncate -s-2 flist.txt
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "$(<flist.txt)"
+
+
+
+# EVALUATE:
+python change_annotation_format.py
+python evaluate.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --annotation_path ./data/dataset/valcustom.txt
+cd /opt/project/mAP
+python main.py --output results_evaluate
+
+
+# show the other plots... (maybe in a separate script? or include in main.py?)
+# Clean up code (delete unnecessary files, describe things, etc.)
+
+
+
+
+
+
+
+
+
+
+
+# Run custom yolov4 tensorflow model (SINGLE IMAGE)
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/P0200_0_0.png
+# MULTIPLE IMAGES
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "./data/images/P0025_3328_1248.png, ./data/images/P0025_3328_2080.png, ./data/images/P0025_3328_3328.png, ./data/images/P0158_2080_2080.png, ./data/images/P0158_2080_2496.png, ./data/images/P0172_416_416.png, ./data/images/P0172_832_1664.png"
+# On a larger image (of people)
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/FF-overhead-people-700X419.jpg
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/happy-kids-sliding-by-snowed-hill-city-park-overhead-view_259348-2630.webp
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/winter-leisure-sport-people-concept-snowboarder-crashed-snow-snowboarder-falls-fresh-snow_222877-9557.webp
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images ./data/images/aerial-view-people-social-distancing-beach-20257129.jpg.webp
+python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "./data/images/kite.jpg, ./data/images/chihuahua.jpg, ./data/images/batman.jpg, ./data/images/dog.jpg, ./data/images/girl.png, ./data/images/toothbrushes.jpg"
+
+
 
 # Run yolov4 on video
 python detect_video.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --video ./data/video/video.mp4 --output ./detections/results.avi
+
+# Run yolov4 on multiple images
+python detect.py --weights ./checkpoints/yolov4-416 --size 416 --model yolov4 --images "./data/images/kite.jpg, ./data/images/chihuahua.jpg"
+
+
 
 # Run custom yolov4 model on video
 python detect_video.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --video ./data/video/cars.mp4 --output ./detections/results.avi

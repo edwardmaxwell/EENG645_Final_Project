@@ -96,10 +96,10 @@ def voc_ap(rec, prec):
   i=find(mrec(2:end)~=mrec(1:end-1))+1;
   ap=sum((mrec(i)-mrec(i-1)).*mpre(i));
   """
-  rec.insert(0, 0.0) # insert 0.0 at begining of list
+  rec.insert(0, 0.0) # insert 0.0 at beginning of list
   rec.append(1.0) # insert 1.0 at end of list
   mrec = rec[:]
-  prec.insert(0, 0.0) # insert 0.0 at begining of list
+  prec.insert(0, 0.0) # insert 0.0 at beginning of list
   prec.append(0.0) # insert 0.0 at end of list
   mpre = prec[:]
   """
