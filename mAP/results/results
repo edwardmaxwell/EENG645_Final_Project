@@ -1,5 +1,0 @@
-
-# Number of predicted objects per class
-building: 30 (tp:0, fp:30)
-car: 62 (tp:0, fp:62)
-tree: 81 (tp:0, fp:81)
