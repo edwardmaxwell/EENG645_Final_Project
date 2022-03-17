@@ -1,10 +1,11 @@
 EENG 645A FINAL PROJECT README
+
+STEP 1:  
+- Download custom weights here (244 MB):  https://drive.google.com/file/d/1-0jvNzhcUFog1Q2EUTAggMLlWs2CPhZi/view?usp=sharing 
+- Rename to "custom.weights"
+- Move into "data" folder within the main folder (should be alongside "flist.txt")
+
 ```bash
-
-
-# STEP 1:  Move custom weights (LINK) into the data folder
-
-
 # STEP 2:  BUILD Docker container
 docker-compose up --build yolov4_cpu
 
@@ -14,7 +15,7 @@ docker-compose run --rm yolov4_cpu
 # STEP 4:  BUILD custom yolov4 inside container (if checkpoints/custom-416 does not exist or is empty)
 python save_model.py --weights ./data/custom.weights --output ./checkpoints/custom-416 --input_size 416 --model yolov4 
 
-# STEP 5:  EVALUATE (run each command in order)
+# STEP 5:  EVALUATE
 python change_annotation_format.py
 python evaluate.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --annotation_path ./data/dataset/valcustom.txt
 cd /opt/project/mAP
@@ -29,8 +30,10 @@ cd /opt/project
 truncate -s-2 flist.txt
 python detect.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --images "$(<flist.txt)"
 
+# Exit the container
+exit
 
-# Below demonstrates how to run on a video.  I don't have any videos for testing, so this is a placeholder.
+# PLACEHOLDER:  Below demonstrates how to run on a video.  I don't have any videos for testing, so this is a placeholder.
 # Run custom yolov4 model on video
 python detect_video.py --weights ./checkpoints/custom-416 --size 416 --model yolov4 --video ./data/video/cars.mp4 --output ./detections/results.avi
 ```
@@ -103,9 +106,10 @@ detect_video.py:
 
 ### References
 
+  * tensorflow-yolov4-tflite (https://github.com/hunglc007/tensorflow-yolov4-tflite) 
   * YOLOv4: Optimal Speed and Accuracy of Object Detection [YOLOv4](https://arxiv.org/abs/2004.10934).
   * [darknet](https://github.com/AlexeyAB/darknet)
   
-   My project is inspired by these previous fantastic YOLOv3 implementations:
+   Inspired by these previous fantastic YOLOv3 implementations:
   * [Yolov3 tensorflow](https://github.com/YunYang1994/tensorflow-yolov3)
   * [Yolov3 tf2](https://github.com/zzh8829/yolov3-tf2)
